@@ -7,6 +7,12 @@ using System.Text;
 using CommandLine.Infrastructure;
 using CSharpx;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Text
 {
     /// <summary>
@@ -71,7 +77,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when parameter <paramref name="copyrightYears"/> is not supplied.</exception>
         public CopyrightInfo(bool isSymbolUpper, string author, params int[] copyrightYears)
         {
-            if (string.IsNullOrWhiteSpace(author)) throw new ArgumentException("author");
+            if (StringEx.IsNullOrWhiteSpace(author)) throw new ArgumentException("author");
             if (copyrightYears.Length == 0) throw new ArgumentOutOfRangeException("copyrightYears");
 
             const int ExtraLength = 10;

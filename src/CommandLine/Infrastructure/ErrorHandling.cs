@@ -10,6 +10,12 @@ using System.Linq;
 using CSharpx;
 #endif
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace RailwaySharp.ErrorHandling
 {
 #if !ERRH_INTERNAL
@@ -51,12 +57,12 @@ namespace RailwaySharp.ErrorHandling
                     return string.Format(
                         "OK: {0} - {1}",
                         ok.Success,
-                        string.Join(Environment.NewLine, ok.Messages.Select(v => v.ToString())));
+                        StringEx.Join(Environment.NewLine, ok.Messages.Select(v => v.ToString())));
                 case ResultType.Bad:
                     var bad = (Bad<TSuccess, TMessage>)this;
                     return string.Format(
                         "Error: {0}",
-                        string.Join(Environment.NewLine, bad.Messages.Select(v => v.ToString())));
+                        StringEx.Join(Environment.NewLine, bad.Messages.Select(v => v.ToString())));
             }
         }
     }
@@ -287,7 +293,7 @@ namespace RailwaySharp.ErrorHandling
             Func<IEnumerable<TMessage>, TSuccess> raiseExn = msgs =>
             {
                 throw new Exception(
-                    string.Join(
+                    StringEx.Join(
                     Environment.NewLine, msgs.Select(m => m.ToString())));
             };
 
@@ -608,7 +614,7 @@ namespace RailwaySharp.ErrorHandling
                 throw new Exception(
                     string.Format("Result was a success: {0} - {1}",
                     ok.Success,
-                    string.Join(Environment.NewLine, ok.Messages.Select(m => m.ToString()))));
+                    StringEx.Join(Environment.NewLine, ok.Messages.Select(m => m.ToString()))));
             }
             var bad = (Bad<TSuccess, TMessage>)result;
             return bad.Messages;
@@ -629,7 +635,7 @@ namespace RailwaySharp.ErrorHandling
             var bad = (Bad<TSuccess, TMessage>)result;
             throw new Exception(
                 string.Format("Result was an error: {0}",
-                string.Join(Environment.NewLine, bad.Messages.Select(m => m.ToString()))));
+                StringEx.Join(Environment.NewLine, bad.Messages.Select(m => m.ToString()))));
         }
 
         /// <summary>

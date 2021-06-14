@@ -7,6 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Text
 {
     /// <summary>
@@ -156,7 +162,7 @@ namespace CommandLine.Text
                                     return "At least one option from group '".JoinTo(
                                         missingGroupOptionError.Group,
                                         "' (",
-                                        string.Join(", ", missingGroupOptionError.Names.Select(n => n.NameText)),
+                                        StringEx.Join(", ", missingGroupOptionError.Names.Select(n => n.NameText)),
                                         ") is required.");
                                 case ErrorType.GroupOptionAmbiguityError:
                                     var groupOptionAmbiguityError = (GroupOptionAmbiguityError)error;
@@ -183,12 +189,12 @@ namespace CommandLine.Text
                         var msgs = bySet.Select(
                             set =>
                             {
-                                var names = string.Join(
+                                var names = StringEx.Join(
                                     string.Empty,
                                     (from e in set.Errors select "'".JoinTo(e.NameInfo.NameText, "', ")).ToArray());
                                 var namesCount = set.Errors.Count();
 
-                                var incompat = string.Join(
+                                var incompat = StringEx.Join(
                                     string.Empty,
                                     (from x in
                                          (from s in bySet where !s.SetName.Equals(set.SetName) from e in s.Errors select e)
@@ -207,7 +213,7 @@ namespace CommandLine.Text
                                             .Append('.')
                                         .ToString();
                             }).ToArray();
-                        return string.Join(Environment.NewLine, msgs);
+                        return StringEx.Join(Environment.NewLine, msgs);
                     };
                 }
             }

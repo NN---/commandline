@@ -5,6 +5,12 @@ using FluentAssertions;
 using CSharpx;
 using CommandLine.Text;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Tests.Unit.Core
 {
     public class TextWrapperTests
@@ -63,7 +69,7 @@ FitOnASingleLine";
         public void NegativeColumnWidthStillProducesOutput()
         {
             var input = @"test";
-            var expected = string.Join(Environment.NewLine, input.Select(c => c.ToString()));
+            var expected = StringEx.Join(Environment.NewLine, input.Select(c => c.ToString()));
             var wrapper = new TextWrapper(input);
             EnsureEquivalent(wrapper.WordWrap(-1).ToText(), expected);
         }

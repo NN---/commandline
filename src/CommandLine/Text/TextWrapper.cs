@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using CommandLine.Infrastructure;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Text
 {
     /// <summary>
@@ -69,7 +75,7 @@ namespace CommandLine.Text
         public string ToText()
         {
             //return the whole thing as a single string
-            return string.Join(Environment.NewLine,lines);
+            return StringEx.Join(Environment.NewLine,lines);
         }
 
         /// <summary>

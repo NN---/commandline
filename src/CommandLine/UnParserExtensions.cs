@@ -9,6 +9,12 @@ using CommandLine.Core;
 using CommandLine.Infrastructure;
 using CSharpx;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine
 {
     /// <summary>
@@ -175,7 +181,7 @@ namespace CommandLine
                            select info;
 
             builder = settings.GroupSwitches && shortSwitches.Any()
-                ? builder.Append('-').Append(string.Join(string.Empty, shortSwitches.Select(
+                ? builder.Append('-').Append(StringEx.Join(string.Empty, shortSwitches.Select(
                     info => ((OptionSpecification)info.Specification).ShortName).ToArray())).Append(' ')
                 : builder;
             optSpecs.ForEach(
@@ -322,7 +328,7 @@ namespace CommandLine
 
             return new string(chars).Split('\n')
                 .Select(x => keepQuote ? x : x.Trim('"'))
-                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Where(x => !StringEx.IsNullOrWhiteSpace(x))
                 .ToArray();
         }
 

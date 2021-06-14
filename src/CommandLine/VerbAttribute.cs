@@ -3,6 +3,12 @@
 using System;
 using System.Collections.Generic;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine
 {
     /// <summary>
@@ -24,7 +30,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentException">Thrown if <paramref name="name"/> is null, empty or whitespace and <paramref name="isDefault"/> is false.</exception>
         public VerbAttribute(string name, bool isDefault = false, string[] aliases = null)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
+            if (StringEx.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
             Name = name;
             IsDefault = isDefault;
@@ -48,7 +54,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Gets or sets a short description of this command line option. Usually a sentence summary. 
+        /// Gets or sets a short description of this command line option. Usually a sentence summary.
         /// </summary>
         public string HelpText
         {

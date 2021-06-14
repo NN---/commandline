@@ -9,6 +9,12 @@ using CSharpx;
 using RailwaySharp.ErrorHandling;
 using System.Reflection;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Core
 {
     static class InstanceBuilder
@@ -195,7 +201,7 @@ namespace CommandLine.Core
             }
             Exception GetException(string[] s)
             {
-                var ctorSyntax = s != null ? " Constructor Parameters can be ordered as: " + $"'({string.Join(", ", s)})'" : string.Empty;
+                var ctorSyntax = s != null ? " Constructor Parameters can be ordered as: " + $"'({StringEx.Join(", ", s)})'" : string.Empty;
                 var msg =
                     $"Type {typeInfo.FullName} appears to be Immutable with invalid constructor. Check that constructor arguments have the same name and order of their underlying Type. {ctorSyntax}";
                 InvalidOperationException invalidOperationException = new InvalidOperationException(msg);

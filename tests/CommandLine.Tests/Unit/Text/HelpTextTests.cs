@@ -13,6 +13,12 @@ using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Tests.Unit.Text
 {
     public class HelpTextTests : IDisposable
@@ -313,7 +319,7 @@ namespace CommandLine.Tests.Unit.Text
                     case ErrorType.MissingGroupOptionError:
                         {
                             var groupErr = (MissingGroupOptionError)err;
-                            return "ERR " + groupErr.Group + ": " + string.Join("---", groupErr.Names.Select(n => n.NameText));
+                            return "ERR " + groupErr.Group + ": " + StringEx.Join("---", groupErr.Names.Select(n => n.NameText));
                         }
                     default:
                         throw new InvalidOperationException();

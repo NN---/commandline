@@ -13,6 +13,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Text
 {
     /// <summary>
@@ -635,7 +641,7 @@ namespace CommandLine.Text
             Func<IEnumerable<MutuallyExclusiveSetError>, string> formatMutuallyExclusiveSetErrors,
             int indent)
         {
-            return string.Join(
+            return StringEx.Join(
                 Environment.NewLine,
                 RenderParsingErrorsTextAsLines(parserResult, formatError, formatMutuallyExclusiveSetErrors, indent));
         }
@@ -701,7 +707,7 @@ namespace CommandLine.Text
         /// <returns>Resulting formatted text.</returns>
         public static string RenderUsageText<T>(ParserResult<T> parserResult, Func<Example, Example> mapperFunc)
         {
-            return string.Join(Environment.NewLine, RenderUsageTextAsLines(parserResult, mapperFunc));
+            return StringEx.Join(Environment.NewLine, RenderUsageTextAsLines(parserResult, mapperFunc));
         }
 
         /// <summary>
@@ -969,7 +975,7 @@ namespace CommandLine.Text
             var optionHelpText = specification.HelpText;
 
             if (addEnumValuesToHelpText && specification.EnumValues.Any())
-                optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
+                optionHelpText += " Valid values: " + StringEx.Join(", ", specification.EnumValues);
 
             specification.DefaultValue.Do(
                 defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);

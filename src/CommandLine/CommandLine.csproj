@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<AssemblyName>CommandLine</AssemblyName>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netstandard2.0;net40;net45;net461</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net35;net40;net45;net461</TargetFrameworks>
 		<DefineConstants>$(DefineConstants);CSX_EITHER_INTERNAL;CSX_REM_EITHER_BEYOND_2;CSX_ENUM_INTERNAL;ERRH_INTERNAL;CSX_MAYBE_INTERNAL;CSX_REM_EITHER_FUNC;CSX_REM_CRYPTORAND;ERRH_ADD_MAYBE_METHODS</DefineConstants>
 		<DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -43,7 +43,11 @@
 	<ItemGroup Condition="'$(TargetFramework)' != 'net40' and '$(BuildTarget)' == 'fsharp'">
 		<PackageReference Include="FSharp.Core" Version="4.5.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net40' and '$(BuildTarget)' == 'fsharp'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
+		<Reference Include="System.Core" />
+		<PackageReference Include="Theraot.Core" Version="3.2.5" />
+	</ItemGroup>
+	<ItemGroup Condition="('$(TargetFramework)' == 'net35' or '$(TargetFramework)' == 'net40') and '$(BuildTarget)' == 'fsharp'">
 		<PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
 	<ItemGroup>

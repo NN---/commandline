@@ -5,13 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+#if NET35
+using StringEx = System.StringEx;
+#else
+using StringEx = System.String;
+#endif
+
 namespace CommandLine.Core
 {
     sealed class Verb
     {
         public Verb(string name, string helpText, bool hidden, bool isDefault, string[] aliases)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (StringEx.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             Name = name;
 

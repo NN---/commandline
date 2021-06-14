@@ -42,7 +42,7 @@ namespace CommandLine
         private int GetWindowWidth()
         {
 
-#if !NET40
+#if !NET35 && !NET40
             if (Console.IsOutputRedirected) return DefaultMaximumLength;
 #endif
             var width = 1;
